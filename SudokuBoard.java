@@ -74,6 +74,7 @@ public class SudokuBoard {
       return true;
    }
 
+   // cols
    private boolean hasValidCols() {
       for (int c = 0; c < 9; c++) {
          Set<String> seen = new HashSet<>();
@@ -122,6 +123,39 @@ public class SudokuBoard {
       return true;
    }
 
+   // is Valid
+   public boolean isValid() {
+      return hasValidData() && hasValidRows() && hasValidCols() && hasValidMiniSquares();
+   }
+ 
+   // returns true if every digit 1-9 appears exactly 9 times and the board is valid
+   public boolean isSolved() {
+      Map<String, Integer> counts = new HashMap<>();
+ 
+      for (int r = 0; r < 9; r++) {
+         for (int c = 0; c < 9; c++) {
+            String val = board[r][c];
+            
+            if (!val.equals(".")) {
+               Integer current = counts.get(val);
+               if (current == null) {
+                  counts.put(val, 1);
+               } else {
+                  counts.put(val, current + 1);
+               }
+            }
+         }
+      }
+ 
+      for (int digit = 1; digit <= 9; digit++) {
+         String key = "" + digit;
+         Integer count = counts.get(key);
+         if (count == null || count != 9) {
+            return false;
+         }
+      }
+      return isValid();
+   }
 
 
    //helper for toString
