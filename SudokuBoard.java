@@ -74,6 +74,22 @@ public class SudokuBoard {
       return true;
    }
 
+   private boolen hasValidColumns() {
+      for (int j = 0; j < 9; j++) {
+        HashSet<Character> set = new HashSet<>();
+
+        for (int i = 0; i < 9; i++) {
+            char c = board[i][j];
+
+            if (c != '.') {
+                if (set.contains(c)) {
+                    return false;
+                }
+                set.add(c);
+            }
+        }
+      }
+
    private boolean hasValidMiniSquares() {
       for (int spot = 1; spot <= 9; spot++) {
          String[][] mini = miniSquare(spot);
