@@ -74,27 +74,39 @@ public class SudokuBoard {
       return true;
    }
 
-   private boolen hasValidColumns() {
-      for (int j = 0; j < 9; j++) {
-        HashSet<Character> set = new HashSet<>();
-
-        for (int i = 0; i < 9; i++) {
-            char c = board[i][j];
-
-            if (c != '.') {
-                if (set.contains(c)) {
-                    return false;
-                }
-                set.add(c);
+   private boolean hasValidCols() {
+      for (int c = 0; c < 9; c++) {
+         Set<String> seen = new HashSet<>();
+ 
+         for (int r = 0; r < 9; r++) {
+            String val = board[r][c];
+            if (!val.equals(".")) {
+               if (seen.contains(val)) {
+                  return false;
+               }
+               seen.add(val);
             }
-        }
+         }
       }
+      return true;
+   }
+
+   // helper
+   private String[][] miniSquare(int spot) {
+      String[][] mini = new String[3][3];
+      for (int r = 0; r < 3; r++) {
+         for (int c = 0; c < 3; c++) {
+            mini[r][c] = board[(spot - 1) / 3 * 3 + r][(spot - 1) % 3 * 3 + c];
+         }
+      }
+      return mini;
+   }
 
    private boolean hasValidMiniSquares() {
       for (int spot = 1; spot <= 9; spot++) {
          String[][] mini = miniSquare(spot);
          Set<String> seen = new HashSet<>();
-         
+ 
          for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                String val = mini[r][c];
@@ -106,10 +118,10 @@ public class SudokuBoard {
                }
             }
          }
-         
       }
       return true;
    }
+
 
 
    //helper for toString
