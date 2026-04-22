@@ -73,7 +73,29 @@ public class SudokuBoard {
       }
       return true;
    }
-   
+
+   private boolean hasValidMiniSquares() {
+      for (int spot = 1; spot <= 9; spot++) {
+         String[][] mini = miniSquare(spot);
+         Set<String> seen = new HashSet<>();
+         
+         for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+               String val = mini[r][c];
+               if (!val.equals(".")) {
+                  if (seen.contains(val)) {
+                     return false;
+                  }
+                  seen.add(val);
+               }
+            }
+         }
+         
+      }
+      return true;
+   }
+
+
    //helper for toString
    public String printBoard() {
       String sBoard = "+-----------------------+\n";
