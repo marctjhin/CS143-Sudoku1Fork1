@@ -32,7 +32,47 @@ public class SudokuBoard {
          System.out.println("Can't load " + FileName + " :(");
       }
    }
-   
+
+   // check for datas in the board
+   private boolean hasValidData() {
+      Set<String> valid = new HashSet<>();
+      
+      for (int i = 1; i <= 9; i++) {
+         valid.add("" + i);
+      }
+      
+      valid.add(".");
+      
+      for (int r = 0; r < 9; r++) {
+         for (int c = 0; c < 9; c++) {
+            if (!valid.contains(board[r][c])) {
+               return false;
+            }
+         }
+      }
+      
+      return true;
+   }
+
+   // check for rows
+   private boolean hasValidRows() {
+      for (int r = 0; r < 9; r++) {
+         Set<String> valid = new HashSet<>();
+         
+         for (int c = 0; c < 9; c++) {
+            String val = board[r][c];
+            
+               if (!val.equals(".")) {
+                  if (valid.contains(val)) {
+                  return false;
+                  }
+                  
+               valid.add(val);
+               }
+         } 
+      }
+      return true;
+   }
    
    //helper for toString
    public String printBoard() {
